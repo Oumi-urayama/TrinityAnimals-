@@ -10,27 +10,34 @@ using UnityEngine.UI;
 /// </summary>
 public class CatController : Character
 {
-    //スキルの効果時間
+    
     [SerializeField]
-    private float skillTime = 0;
-    //スキル中の移動速度
+    private float skillTime = 0; //スキルの効果時間
     [SerializeField]
-    private float skillMoveSpeed;
-    //スキル中のジャンプ力
+    const float skillTimeReset = 1000f; //定数
     [SerializeField]
-    private float skillJumpForce;
-    //通常時の移動速度
-    [SerializeField]
-    private float nomalMoveSpeed;
-    //通常時のジャンプ力
-    [SerializeField]
-    private float nomalJumpForce;
+    const float skillCoolTimeReset = 10000f;//定数
 
-    //ControllPlayerのオーバーライド
-    public override void ControllPlayer()
+    [SerializeField]
+    private float skillMoveSpeed; //スキル中の移動速度  
+    
+    [SerializeField]
+    private float skillJumpForce; //スキル中のジャンプ力
+    
+    [SerializeField]
+     private float normalMoveSpeed; //通常時の移動速度
+  
+    [SerializeField]
+    private float normalJumpForce; //通常時のジャンプ力
+
+/// <summary>
+///  親クラスのControlPlayerメソッドオーバーライド
+/// </summary>
+    public override void ControlPlayer()
     {
-        //親クラスのControllPlayerをもとに
-        base.ControllPlayer();
+        //親クラスのControlPlayerをもとに
+        base.ControlPlayer();
+
         //skillCoolTimeを減らす
         skillCoolTime--;
 
@@ -38,20 +45,21 @@ public class CatController : Character
         if (playerInput.actions["CatSkill"].triggered && Time.time > canJump)
         {
             myFlagManager.OnSkill = true;
-            //skillTimenに値を代入する
-            const float skillTimeLiset = 1000f;//定数
-            skillTime = skillTimeLiset;
-            //skillCoolTimeに値を代入する
-            const float skillCoolTimeLiset = 10000f;//定数
-            skillCoolTime = skillCoolTimeLiset;
+
+            //skillTimenに値を代入する          
+            skillTime = skillTimeReset;
+
+            //skillCoolTimeに値を代入する  
+            skillCoolTime = skillCoolTimeReset;
         }
+
         //skillTimeが0より大きいとき
         if (skillTime > 0)
         {
             //skillTimeを減らす
             skillTime--;
-            //親クラスのsneekをtrueにする
-            myFlagManager.Sneek = true;
+            //親クラスのsneakをtrueにする
+            myFlagManager.Sneak = true;
             //movementSpeedとjumpForceを変更する
             movementSpeed = skillMoveSpeed;
             jumpForce = skillJumpForce;
@@ -61,10 +69,10 @@ public class CatController : Character
         {
             myFlagManager.OnSkill = false;
             //親クラスのsneekをfalseにする
-            myFlagManager.Sneek = false;
+            myFlagManager.Sneak = false;
             //movementSpeedとjumpForceを変更する
-            movementSpeed = nomalMoveSpeed;
-            jumpForce = nomalJumpForce;
+            movementSpeed = normalMoveSpeed;
+            jumpForce = normalJumpForce;
         }
     }
 }

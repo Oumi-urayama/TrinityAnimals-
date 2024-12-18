@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// チュートリアルの処理を制御する
+/// </summary>
 public class TutorialBlock : MonoBehaviour
 {
-    public GameObject tutorial;
+    [SerializeField]
+    private GameObject tutorial;
+
     GameObject player;
     Rigidbody rb;
     Character chara;
-    // Start is called before the first frame update
+
     void Start()
     {
         tutorial.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(player == null)
@@ -31,10 +35,16 @@ public class TutorialBlock : MonoBehaviour
             tutorial.SetActive(true);
         }
     }
+
+    /// <summary>
+    /// チュートリアルを閉じる
+    /// </summary>
     public void Back()
     {
         Time.timeScale = 1;
         tutorial.SetActive(false);
+        #if UNITY_EDITOR
         Debug.Log("Back");
+        #endif
     }
 }

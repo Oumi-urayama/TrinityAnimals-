@@ -6,27 +6,30 @@ using UnityEngine.SceneManagement;
 using CharacterChoice;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// ゲームの状態を管理する
+/// </summary>
 public class GameManager : MonoBehaviour
 {
-    //myGameManagerDataスクリプトのインスタンス
-    private GameDataManager myGameManagerData;
-    //各ゲームオブジェクトを格納する変数
+   
+    private GameDataManager myGameManagerData;  //GameManagerDataスクリプトのインスタンス
+    
     [SerializeField]
-    private GameObject panel;
+    private GameObject panel; 
     [SerializeField]
-    private GameObject GameStart;
+    private GameObject gameStart; 
     [SerializeField]
-    private GameObject GameClear;
+    private GameObject gameClear;
     [SerializeField]
-    private GameObject GameOver;
+    private GameObject gameOver;
     [SerializeField]
-    private GameObject GamePause;
+    private GameObject gamePause;
     [SerializeField]
-    private GameObject ReStart;
+    private GameObject restartButton;
     [SerializeField]
-    private GameObject ReTryButton;
+    private GameObject retryButton;
     [SerializeField]
-    private GameObject BackToTitle;
+    private GameObject backToTitleButton;
 
     [SerializeField]
     private FlagManager myFlagManager;
@@ -35,29 +38,35 @@ public class GameManager : MonoBehaviour
     private PlayerInput playerInput;
 
 
-    //スタートメゾット
+    //スタートメソッド
     void Start()
     {
         Time.timeScale = 1;
-        //Inactiveメゾットを1.0ｆ後に動かす
+
+        //Inactiveメソッドを1.0ｆ後に動かす
         Invoke("Inactive", 1.0f);
-        //ゲームオブジェクトのアクティビティをfalseにする
-        GameClear.SetActive(false);
-        GameOver.SetActive(false);
-        GamePause.SetActive(false);
+
+        //ゲームオブジェクトを非表示にする
+  
+        gameClear.SetActive(false);
+        gameOver.SetActive(false);
+        gamePause.SetActive(false);
+
         //CharacterのgameOver・gameClearをfalseにする
         myFlagManager.GameOver = false;
         myFlagManager.GameClear = false;
-        //ゲームオブジェクトのアクティビティをfalseにする
+
+        //表示用のパネルを非表示にする
         panel.SetActive(false);
-        //myGameManagerDataを習得する
+
+        //必要な参照を習得する
         myGameManagerData = FindObjectOfType<MyGameManager>().GetMyGameManagerData();
+
         myFlagManager = FindObjectOfType<MyFlagManager>().GetFlagManagerDate();
-        //chara=GameObject.FindWithTag("Player").GetComponent<Character>();
+
         playerInput=GetComponent<PlayerInput>();
     }
 
-    // 毎フレームごとに動かす
     void Update()
     {
         if(chara == null)
@@ -67,33 +76,46 @@ public class GameManager : MonoBehaviour
         //CharacterのgameClearがtrueの時
         if (myFlagManager.GameClear)
         {
-            //各オブジェクトのアクティビティをtrueにする
-            GameClear.SetActive(true);
+            //各オブジェクトを表示する
+            gameClear.SetActive(true);
             panel.SetActive(true);
-            //ReTryButtonを習得する
-            Button bt = ReTryButton.GetComponent<Button>();
-            Button Bt = ReStart.GetComponent<Button>();
-            //btを無効化する
-            bt.interactable = false;
-            Bt.interactable = false;
+
+            //RetryButtonを習得する
+            Button rb = retryButton.GetComponent<Button>();
+            Button reB = restartButton.GetComponent<Button>();
+                     
+            //ボタンを無効化する
+            if(rb != null)
+            {
+                rb.interactable = false;
+            }
+
+            if(reB != null)
+            {
+                reB.interactable = false;
+            }
+
         }
         //CharacterのgameOverがtrueの時
         else if (myFlagManager.GameOver)
         {
             Time.timeScale = 0;
-            //myGameManagerDataのSetNextSceneNameメゾットを"CharacterChoice"を引数にして動かす
+            //myGameManagerDataのSetNextSceneNameメソッドを"CharacterChoice"を引数にして動かす
             myGameManagerData.SetNextSceneName("CharacterChoice");
-            //各オブジェクトのアクティビティをtrueにする
-            GameOver.SetActive(true);
+
+            //各オブジェクトを表示する
+            gameOver.SetActive(true);
             panel.SetActive(true);
 
         }
+
         //CharacterのgamePauseがtrueの時
         else if (myFlagManager.GamePause)
         {
             Time.timeScale = 0;
-            //各オブジェクトのアクティビティをtrueにする
-            GamePause.SetActive(true);
+            
+            //各オブジェクトを表示する
+            gamePause.SetActive(true);
             panel.SetActive(true);
         }
     }
@@ -102,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         //GameStartを非アクティブにする
-        GameStart.SetActive(false);
+        gameStart.SetActive(false);
     }
     //LodeSceneメゾット(引数あり)
     public void LodeScene(string scene)
@@ -122,10 +144,10 @@ public class GameManager : MonoBehaviour
         //CharacterのgamePauseをfalseにする
         myFlagManager.GamePause = false;
         //各オブジェクトのアクティビティをfalesにする
-        GamePause.SetActive(false);
+        gamePause.SetActive(false);
         panel.SetActive(false);
         //ReTryButtonを習得する
-        Button retryButton = ReTryButton.GetComponent<Button>();
+        Button retryButton = this.retryButton.GetComponent<Button>();
         //btを無効化する
         retryButton.interactable = true;
     }

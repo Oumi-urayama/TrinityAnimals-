@@ -9,6 +9,9 @@ using UnityEngine.Audio;
 
 namespace CharacterChoice
 {
+    /// <summary>
+    /// キャラクター選択時の処理
+    /// </summary>
     public class ChooseCharacter : MonoBehaviour
     {
         [SerializeField]
@@ -18,19 +21,27 @@ namespace CharacterChoice
 
         private void Start()
         {
-            //　世界に一つだけのMyGameManagerからMyGameManagerDataを取得する
+            //　シーン内に一つだけのMyGameManagerからMyGameManagerDataを取得する
             myGameManagerData = FindObjectOfType<MyGameManager>().GetMyGameManagerData();
             //　ゲームスタートボタンを取得する
             gameStartButton = transform.parent.Find("ButtonPanel/GameStart").gameObject;
             //　ゲームスタートボタンを無効にする
             gameStartButton.SetActive(false);
         }
+
+        /// <summary>
+        /// ボタンがクリックされた時の処理
+        /// </summary>
         public void OnButtonClick()
         {
             OnSelectCharacter(character);
-            // ここにボタンがクリックされたときの処理を追加
+            // ここに必要があればボタンがクリックされたときの処理を追加
         }
-        //　キャラクターを選択した時に実行しキャラクターデータをMyGameManagerDataにセット
+
+        /// <summary>
+        /// キャラクターを選択した時に実行しキャラクターデータをMyGameManagerDataにセット
+        /// </summary>
+        /// <param name="character"></param>　
         public void OnSelectCharacter(GameObject character)
         {
             //　ボタンの選択状態を解除して選択したボタンのハイライト表示を可能にする為に実行
@@ -40,7 +51,10 @@ namespace CharacterChoice
             //　ゲームスタートボタンを有効にする
             gameStartButton.SetActive(true);
         }
-        //　キャラクターを選択した時に背景をオンにする
+        /// <summary>
+        /// キャラクターを選択した時に背景をオンにする
+        /// </summary>
+        /// <param name="buttonNumber"></param>
         public void SwitchButtonBackground(int buttonNumber)
         {
             for (int i = 0; i < transform.childCount; i++)
