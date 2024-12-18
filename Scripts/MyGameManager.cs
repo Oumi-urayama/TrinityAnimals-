@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace CharacterChoice
 {
+    /// <summary>
+    /// ゲーム全体を管理するクラス
+    /// </summary>
     public class MyGameManager : MonoBehaviour
     {
         //　世界に一つだけのMyGameManager
@@ -14,6 +17,10 @@ namespace CharacterChoice
         [SerializeField]
         private GameDataManager gameDateManager = null;
 
+    /// <summary>
+    /// MyGameManagerを取得するためのメソッド
+    /// </summary>
+    /// <returns></returns>
         public GameDataManager GetMyGameManagerData()
         {
             return gameDateManager;

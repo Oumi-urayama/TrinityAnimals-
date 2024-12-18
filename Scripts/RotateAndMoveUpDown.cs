@@ -1,18 +1,30 @@
 using UnityEngine;
 
+/// <summary>
+/// キャラクターを回転させ、上下に動かす
+/// </summary>
 public class RotateAndMoveUpDown : MonoBehaviour
 {
     [SerializeField]
     private GameObject chara3D;
+
     [SerializeField]
     private float scale = 1.5f;
+
     [SerializeField]
     private int buttonNumber;
+
     [SerializeField]
     private Vector3 initialPosition = new Vector3(0f, 0f, 0f);
-    public float rotationSpeed = 30f;   // 回転速度（度/秒）
-    public float moveSpeed = 1f;        // 上下運動速度
-    public float moveDistance = 1f;     // 上下運動の振幅
+    
+    [SerializeField]
+    private float rotationSpeed = 30f;   // 回転速度（度/秒）
+
+    [SerializeField]
+    private float moveSpeed = 1f;        // 上下運動速度
+
+    [SerializeField]
+    private float moveDistance = 1f;     // 上下運動の振幅
 
     private void Start()
     {
@@ -28,12 +40,18 @@ public class RotateAndMoveUpDown : MonoBehaviour
         MoveObjectUpDown();
     }
 
+    /// <summary>
+    /// オブジェクトを回転させる
+    /// </summary>
     private void RotateObject()
     {
         // オブジェクトを回転させる
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
     }
 
+/// <summary>
+/// オブジェクトを上下に動かす
+/// </summary>
     private void MoveObjectUpDown()
     {
         // オブジェクトを上下に動かす
@@ -43,6 +61,7 @@ public class RotateAndMoveUpDown : MonoBehaviour
     public void SwitchButtonBackground(int buttonNumber)
     {
         Vector3 initialScale = chara3D.transform.localScale;
+        
         for (int i = 0; i < transform.childCount; i++)
         {
             if (i == buttonNumber - 1)

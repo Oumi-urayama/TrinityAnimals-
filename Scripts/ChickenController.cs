@@ -11,30 +11,38 @@ using UnityEngine.UI;
 /// </summary>
 public class ChickenController : Character
 {
-    //スキルのジャンプクールタイム
+    
     [SerializeField]
-    private float skillNextJump;
+    private float skillNextJump; //スキルのジャンプクールタイム
 
-
-    //ControllPlayerのオーバーライド
-    public override void ControllPlayer()
+/// <summary>
+/// 親クラスのControllPlayerメソッドオーバーライド
+/// </summary>
+    public override void ControlPlayer()
     {
         //親クラスのControllPlayerをもとに
-        base.ControllPlayer();
+        base.ControlPlayer();
+
         ////skillCoolTimeを減らす
-        
+        //ファティンコメント：skillCoolTime--　は必要ないの？
+
         //["Skill"]入力があり、かつskillCoolTimeよりも時間が経過している時
         if (playerInput.actions["Skill"].triggered && Time.time > skillCoolTime)
         {
             myFlagManager.OnSkill = true;
+
             //playerVelocityにy軸にjumpForceを入れたベクトルを格納する
             playerVelocity = new Vector3(0f, jumpForce, 0f);
+
             //ジャンプさせる
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
             //ジャンプアニメーションを動かす
             anim.SetTrigger("jump");
-            //canJumpnにその時の時間とskillNextJumpを足した値を入れる
+
+            //canJumpにその時の時間とskillNextJumpを足した値を入れる
             canJump = Time.time + skillNextJump;
+            
             //skillCoolTimeにcoolTimeの値を代入する
             skillCoolTime = coolTime;
         }

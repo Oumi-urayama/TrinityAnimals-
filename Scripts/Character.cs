@@ -76,7 +76,7 @@ public class Character : MonoBehaviour
         if (!myFlagManager.GameOver && !myFlagManager.GameClear && !myFlagManager.GamePause)
         {
             //ControllPlayerメゾットを動かす
-            ControllPlayer();
+            ControlPlayer();
         }
         //playerInputで["Pause"]が押されたとき
         if (playerInput.actions["Pause"].triggered)
@@ -86,8 +86,10 @@ public class Character : MonoBehaviour
         }
     }
 
-    //ControllPlayerメゾット
-    public virtual void ControllPlayer()
+    /// <summary>
+    /// プレイヤーの操作を制御するメソッド
+    /// </summary>
+    public virtual void ControlPlayer()
     {
         //moveInputにplayerInputで入力された["Move"]の方向ベクトルを代入する
         Vector2 moveInput = playerInput.actions["Move"].ReadValue<Vector2>();
@@ -119,16 +121,16 @@ public class Character : MonoBehaviour
         if (moveInput != Vector2.zero)
         {
             //Walkアニメーションを動かす
-            anim.SetInteger("Walk", 1);
+            anim.SetInteger("walk", 1);
         }
         else
         {
             //Walkアニメーションを止める
-            anim.SetInteger("Walk", 0);
+            anim.SetInteger("walk", 0);
         }
 
         //["Jamp"]入力があり、かつcamJumpよりも時間が経過している時
-        if (playerInput.actions["Jamp"].triggered && Time.time > canJump)
+        if (playerInput.actions["Jump"].triggered && Time.time > canJump)
         {
             //playerVelocityにy軸にjumpForceを入れたベクトルを格納する
             playerVelocity = new Vector3(0f, jumpForce, 0f);
@@ -143,7 +145,10 @@ public class Character : MonoBehaviour
         playerVelocity.y += gravityValue * Time.fixedDeltaTime;
         charaCon.Move(playerVelocity * Time.fixedDeltaTime);
     }
-    //colliderのtriggerに触れた時
+    /// <summary>
+    /// colliderのtriggerに触れた時
+    /// </summary>
+    /// <param name="other"></param>
     public void OnTriggerEnter(Collider other)
     {
         //接触したのがDeadタグのオブジェクトの時

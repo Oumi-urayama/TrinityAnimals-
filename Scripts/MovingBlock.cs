@@ -3,28 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveBlock : MonoBehaviour
+/// <summary>
+/// 移動するブロックの処理を制御する
+/// </summary>
+public class MovingBlock : MonoBehaviour
 {
     [Header("移動にかかる時間"), SerializeField]
-    public float duration = 2f; // 移動にかかる時間（秒）
+    private float duration = 2f; // 移動にかかる時間（秒）
 
     [Header("移動する距離"), SerializeField]
-    public float distance = 5f; // 移動する距離
+    private float distance = 5f; // 移動する距離
 
     float speed; // 移動の速さ（毎秒の移動距離）
 
     [SerializeField]
-    public bool moveX = true; // X軸に移動するかどうか
+    private bool moveX = true; // X軸に移動するかどうか
     [SerializeField]
-    public bool moveY = true; // Y軸に移動するかどうか
+    private bool moveY = true; // Y軸に移動するかどうか
     [SerializeField]
-    public bool moveZ = true; // Z軸に移動するかどうか
+    private bool moveZ = true; // Z軸に移動するかどうか
 
     private Vector3 initialPosition;
     private float startTime;
 
     [SerializeField]
-    private bool isPlayerOn = false;
+    private bool isPlayerOn = false; // プレイヤーが乗っているかどうか
 
     void Start()
     {
@@ -35,17 +38,22 @@ public class MoveBlock : MonoBehaviour
 
     void FixedUpdate()
     {
+        //ファティンコメント：ここはどういう処理をしているか説明書いてください
+
         float distanceCovered = (Time.time - startTime) * speed;
         float fractionOfJourney = distanceCovered / distance;
 
         Vector3 newPosition = initialPosition;
 
         if (moveX)
-            newPosition.x += Mathf.PingPong(fractionOfJourney, 1f) * distance * 2f - distance;
+            newPosition.x += Mathf.PingPong(fractionOfJourney, 1f) * distance * 2f - distance; 
+            //マジックナンバー発見！変数化・定数化・ORコメントを残してください。なぜ２なの？
         if (moveY)
             newPosition.y += Mathf.PingPong(fractionOfJourney, 1f) * distance * 2f - distance;
+            //マジックナンバー発見！変数化・定数化・ORコメントを残してください。なぜ２なの？
         if (moveZ)
             newPosition.z += Mathf.PingPong(fractionOfJourney, 1f) * distance * 2f - distance;
+            //マジックナンバー発見！変数化・定数化・ORコメントを残してください。なぜ２なの？
 
         transform.position = newPosition;
     }
